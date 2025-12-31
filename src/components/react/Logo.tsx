@@ -13,11 +13,13 @@ export function Logo({
   showText = false,
   ...props 
 }: LogoProps) {
+  const basePath = import.meta.env.BASE_URL || '/';
+  
   if (variant === 'circular') {
     return (
       <a href={href} className={cx('block', className)} {...props}>
         <img 
-          src="/LogoCircular.jpeg" 
+          src={`${basePath}LogoCircular.jpeg`}
           alt="CocoBakes" 
           className="h-12 w-12 rounded-full object-cover lg:h-16 lg:w-16"
         />
@@ -29,7 +31,7 @@ export function Logo({
     return (
       <a href={href} className={cx('block', className)} {...props}>
         <img 
-          src="/LogoNoText.jpeg" 
+          src={`${basePath}LogoNoText.jpeg`}
           alt="CocoBakes" 
           className="h-10 w-auto lg:h-14"
         />
