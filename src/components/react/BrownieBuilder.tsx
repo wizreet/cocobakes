@@ -8,7 +8,6 @@ import {
   quantityOptions,
   formatPrice,
   type BuilderOption,
-  type BuilderCategory,
 } from '../../data/brownie-builder';
 
 interface SelectionState {
@@ -26,7 +25,6 @@ export function BrownieBuilder() {
     quantity: 4,
   });
   const [activeTab, setActiveTab] = useState<'base' | 'toppings' | 'extras'>('base');
-  const [showOrderModal, setShowOrderModal] = useState(false);
 
   const isOrderValid = selections.base !== null;
 

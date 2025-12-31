@@ -17,7 +17,7 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [filter, setFilter] = useState<string>('all');
 
-  const categories = ['all', ...new Set(images.map(img => img.category).filter(Boolean))];
+  const categories = ['all', ...new Set(images.map(img => img.category).filter(Boolean))] as string[];
 
   const filteredImages = filter === 'all' 
     ? images 

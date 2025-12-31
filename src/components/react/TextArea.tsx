@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { cx } from 'class-variance-authority';
 import type { TextareaHTMLAttributes } from 'react';
 

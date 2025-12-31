@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+
 import Logo from './Logo';
 import contactInfo from '../../data/contact-info';
 import openingHours from '../../data/opening-hours';
