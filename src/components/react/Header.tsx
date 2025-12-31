@@ -6,12 +6,14 @@ import NavLink from './NavLink';
 import { ButtonLink } from './Button';
 import contactInfo from '../../data/contact-info';
 
+const basePath = import.meta.env.BASE_URL || '/';
+
 const navLinks = [
-  { href: '/', text: 'Home', icon: 'heroicons:home-solid' },
-  { href: '/menu', text: 'Menu', icon: 'heroicons:cake-solid' },
-  { href: '/craft', text: 'Craft Your Own', icon: 'heroicons:sparkles-solid' },
-  { href: '/gallery', text: 'Gallery', icon: 'heroicons:photo-solid' },
-  { href: '/#contact', text: 'Contact', icon: 'heroicons:information-circle-solid' },
+  { href: `${basePath}`, text: 'Home', icon: 'heroicons:home-solid' },
+  { href: `${basePath}menu`, text: 'Menu', icon: 'heroicons:cake-solid' },
+  { href: `${basePath}craft`, text: 'Craft Your Own', icon: 'heroicons:sparkles-solid' },
+  { href: `${basePath}gallery`, text: 'Gallery', icon: 'heroicons:photo-solid' },
+  { href: `${basePath}#contact`, text: 'Contact', icon: 'heroicons:information-circle-solid' },
 ];
 
 const socialLinks = [
@@ -82,11 +84,11 @@ export function Header() {
         <div className="container flex items-center justify-between">
           <Logo />
           <nav aria-label="main" className="hidden items-center gap-8 lg:flex xl:gap-10">
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/menu">Menu</NavLink>
-            <NavLink href="/craft">Craft</NavLink>
-            <NavLink href="/gallery">Gallery</NavLink>
-            <ButtonLink href="/#contact" size="medium">
+            <NavLink href={basePath}>Home</NavLink>
+            <NavLink href={`${basePath}menu`}>Menu</NavLink>
+            <NavLink href={`${basePath}craft`}>Craft</NavLink>
+            <NavLink href={`${basePath}gallery`}>Gallery</NavLink>
+            <ButtonLink href={`${basePath}#contact`} size="medium">
               <span>Contact</span>
               <Icon icon="heroicons:arrow-long-right-20-solid" className="h-5 w-5" />
             </ButtonLink>

@@ -7,7 +7,7 @@ interface LogoProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 }
 
 export function Logo({ 
-  href = '/', 
+  href = import.meta.env.BASE_URL || '/', 
   className, 
   variant = 'text',
   showText = false,
