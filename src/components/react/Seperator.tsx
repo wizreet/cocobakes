@@ -1,0 +1,20 @@
+import { cx } from 'class-variance-authority';
+
+interface SeperatorProps {
+  flip?: boolean;
+  className?: string;
+}
+
+export function Seperator({ flip = false, className }: SeperatorProps) {
+  return (
+    <div
+      className={cx(
+        'relative h-2 w-full overflow-hidden before:absolute before:inset-0 after:absolute after:-top-px after:h-full after:w-full after:[clip-path:polygon(0%_0%,10%_100%,20%_0%,30%_100%,40%_0%,50%_100%,60%_0%,70%_100%,80%_0%,90%_100%,100%_0%)] lg:after:[clip-path:polygon(0%_0%,5%_100%,10%_0%,15%_100%,20%_0%,25%_100%,30%_0%,35%_100%,40%_0%,45%_100%,50%_0%,55%_100%,60%_0%,65%_100%,70%_0%,75%_100%,80%_0%,85%_100%,90%_0%,95%_100%,100%_0%)]',
+        flip ? 'before:bg after:bg-surface' : 'before:bg-surface after:bg',
+        className
+      )}
+    />
+  );
+}
+
+export default Seperator;

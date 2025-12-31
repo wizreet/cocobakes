@@ -1,0 +1,8 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import { MenuPage } from '@/components/react/MenuPage';
+---
+
+<MainLayout title="Menu - CocoBakes" description="Explore our full range of handcrafted brownies. From classic favorites to premium creations.">
+  <MenuPage client:idle />
+</MainLayout>

@@ -1,0 +1,16 @@
+---
+type Props = {
+  slots: Astro['slots'];
+  args?: any[] | undefined;
+};
+
+const { slots, args } = Astro.props;
+
+if (!slots.has('default')) {
+  throw new Error('The parent component does not have any child elements.');
+}
+
+const children = await slots.render('default', args);
+---
+
+<Fragment set:html={children} />

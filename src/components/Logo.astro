@@ -1,0 +1,19 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { cx } from 'class-variance-authority';
+
+type Props = HTMLAttributes<'a'>;
+
+const { href = '/', class: className, ...props } = Astro.props;
+---
+
+<a
+  {href}
+  class={cx(
+    'ring-brand-hover rounded-md font-brand text-heading-2xl text-brand ring-offset-2 hover:text-brand-hover focus-visible:text-brand-hover focus-visible:outline-none focus-visible:ring lg:text-heading-4xl',
+    className,
+  )}
+  {...props}
+>
+  CocoBakes
+</a>

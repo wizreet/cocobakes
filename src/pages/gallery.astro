@@ -1,0 +1,72 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import { ImageGallery, Seperator } from '@/components/react';
+import imageGallery from '@/data/image-gallery';
+import { Image } from 'astro:assets';
+import bakeryImage from '@/assets/austin-park-xAS8pWGMMGA-unsplash.jpg';
+---
+
+<MainLayout>
+  <!-- Gallery Section -->
+  <section class="container flex flex-col gap-8 py-16 lg:gap-16 lg:py-24">
+    <header class="space-y-3 lg:text-center">
+      <h1
+        class="font-primary text-heading-3xl font-bold text lg:text-heading-4xl"
+      >
+        Our Gallery
+      </h1>
+      <p
+        class="font-secondary text-body-md font-regular text-secondary lg:text-body-lg"
+      >
+        Click on any image to view it in full size
+      </p>
+    </header>
+    <ImageGallery
+      images={[
+        ...imageGallery.firstColumn.map((img, i) => ({ src: img.src, alt: `Classic Bakery Item ${i + 1}`, category: 'bakery' })),
+        ...imageGallery.secondColumn.map((img, i) => ({ src: img.src, alt: `Specialty Treat ${i + 1}`, category: 'specialty' })),
+        ...imageGallery.thirdColumn.map((img, i) => ({ src: img.src, alt: `Custom Creation ${i + 1}`, category: 'custom' })),
+      ]}
+      client:visible
+    />
+  </section>
+
+  <Seperator />
+
+  <!-- About Section -->
+  <section id="about" class="bg-surface py-16 lg:py-24">
+    <div
+      class="container flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-16"
+    >
+      <div class="flex-1">
+        <Image
+          src={bakeryImage}
+          alt="CocoBakes bakery"
+          width={576}
+          class="aspect-video w-full rounded-md object-cover shadow-of-bg-surface lg:aspect-4/3"
+        />
+      </div>
+      <div class="flex flex-1 flex-col gap-3 lg:gap-4">
+        <h2
+          class="font-primary text-heading-2xl font-bold text lg:text-heading-3xl xl:text-heading-4xl"
+        >
+          Welcome to CocoBakes
+        </h2>
+        <p class="font-secondary text-body-md text-secondary xl:text-body-xl">
+          At CocoBakes, we're passionate about crafting the perfect baked goods. 
+          Based in the heart of Lalitpur, Nepal, we bake every item with love, 
+          using premium ingredients to deliver rich, delicious brownies, cakes, 
+          and pastries that melt in your mouth. From classic fudge brownies to 
+          custom celebration cakes, we pour our heart into every creation.
+        </p>
+        <p class="font-secondary text-body-md text-secondary xl:text-body-xl">
+          Our commitment to quality means we source the finest ingredients and 
+          take pride in every batch we bake. Whether you're celebrating a special 
+          occasion or simply treating yourself, CocoBakes is here to make your 
+          moments sweeter. Join us on a journey of chocolate bliss and discover 
+          why our community loves what we do!
+        </p>
+      </div>
+    </div>
+  </section>
+</MainLayout>

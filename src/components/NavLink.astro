@@ -1,0 +1,18 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { cx } from 'class-variance-authority';
+
+type Props = HTMLAttributes<'a'>;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<a
+  class={cx(
+    'decoration-current font-primary text-heading-xl font-regular text hover:text-brand-hover focus-visible:text-brand-hover',
+    className,
+  )}
+  {...props}
+>
+  <slot />
+</a>

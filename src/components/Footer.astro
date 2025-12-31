@@ -1,0 +1,91 @@
+---
+import footer from '@/data/footer';
+import Logo from '@/components/Logo.astro';
+import { Icon } from 'astro-icon/components';
+
+const socialLinks = [
+  { href: 'https://instagram.com/cocobakes.np', icon: 'fe:instagram', label: 'Instagram' },
+  { href: 'https://facebook.com/cocobakes.np', icon: 'fe:facebook', label: 'Facebook' },
+  { href: 'https://wa.me/9779849805290', icon: 'mdi:whatsapp', label: 'WhatsApp' },
+];
+---
+
+<footer class="divide-y divide-primary bg-surface">
+  <nav
+    aria-label="footer"
+    class="container flex flex-col gap-8 pb-8 pt-16 lg:flex-row lg:justify-between lg:pt-24"
+  >
+    <div class="flex flex-col gap-3 lg:gap-[2.349375rem]">
+      <Logo class="w-fit" />
+      <ul class="flex flex-col gap-1 lg:gap-2">
+        {
+          footer.info.map(({ href, text }) => (
+            <li>
+              <a
+                {href}
+                class="font-secondary text-body-md font-regular text-secondary hover:text hover:underline focus-visible:text focus-visible:underline"
+              >
+                {text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="flex gap-3 mt-2">
+        {
+          socialLinks.map(({ href, icon, label }) => (
+            <a
+              {href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-fill-brand text-on-bg-fill-brand hover:bg-fill-brand-hover transition-colors"
+              aria-label={label}
+            >
+              <Icon name={icon} class="h-5 w-5" />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+    {
+      footer.columns.map(({ title, list }) => (
+        <div class="flex flex-col gap-3 lg:gap-6">
+          <h3 class="font-primary text-heading-xl font-bold text-brand">
+            {title}
+          </h3>
+          <ul class="flex flex-col gap-1 lg:gap-2">
+            {list.map((item) => (
+              <li>
+                {typeof item === 'string' ? (
+                  <p class="font-secondary text-body-md font-regular text-secondary">
+                    {item}
+                  </p>
+                ) : (
+                  <a
+                    href={item.href}
+                    class="font-secondary text-body-md font-regular text-secondary hover:text hover:underline focus-visible:text focus-visible:underline"
+                  >
+                    {item.text}
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </nav>
+  <div
+    class="container flex flex-col gap-1 pb-16 pt-8 lg:flex-row-reverse lg:justify-between lg:pb-24"
+  >
+    <a
+      href=""
+      class="w-fit font-secondary text-body-md font-regular text-secondary hover:text hover:underline focus-visible:text focus-visible:underline"
+    >
+      Privacy Policy
+    </a>
+    <p class="font-secondary text-body-md font-regular text-secondary">
+      &copy; 2025 CocoBakes, Lalitpur, Nepal. All rights reserved.
+    </p>
+  </div>
+</footer>

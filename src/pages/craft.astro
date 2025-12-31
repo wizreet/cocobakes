@@ -1,0 +1,8 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import { CraftPage } from '@/components/react/CraftPage';
+---
+
+<MainLayout title="Craft - CocoBakes" description="Craft your own brownies and request custom treats like cheesecake, cookies, and more.">
+  <CraftPage client:load />
+</MainLayout>

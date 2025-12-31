@@ -1,0 +1,52 @@
+---
+import { Header, Footer } from '@/components/react';
+
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+const {
+  title = 'CocoBakes - Handcrafted Brownies from Nepal',
+  description = 'Welcome to CocoBakes, your artisan brownie bakery in Lalitpur, Nepal. Discover our handcrafted brownies made with love and premium ingredients. Order your favorites today!',
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/jpeg" href="/LogoCircular.jpeg" />
+    <link rel="apple-touch-icon" href="/LogoCircular.jpeg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Fonts (reduce FOUT/layout shift on navigation) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&family=Dancing+Script:wght@400;700&display=swap"
+    />
+
+    <style is:global>
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 8rem;
+      }
+    </style>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/LogoVertical.jpeg" />
+    <title>{title}</title>
+  </head>
+  <body
+    class="relative bg font-primary text after:pointer-events-none after:absolute after:left-0 after:top-0 after:z-50 after:h-full after:w-full after:bg-noise-loose after:opacity-10 after:contrast-0 lg:after:bg-noise-dense"
+  >
+    <Header client:idle />
+    <main class="pt-24 lg:pt-32">
+      <slot />
+    </main>
+    <Footer client:idle />
+  </body>
+</html>

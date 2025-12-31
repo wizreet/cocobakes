@@ -1,0 +1,464 @@
+---
+import { Image } from 'astro:assets';
+import MainLayout from '@/layouts/MainLayout.astro';
+import { 
+  ButtonLink, 
+  Seperator, 
+  FeaturedDelightCard, 
+  TestimonialCard, 
+  ShowMore,
+  ContactForm,
+  Icon,
+  ImageGallery
+} from '@/components/react';
+
+// Images
+import heroImage from '@/assets/ceyda-ciftci-OSwM-hfJoBQ-unsplash.jpg';
+import openingHoursImage from '@/assets/fabio-traina-6i6NJgCJ8k0-unsplash.jpg';
+
+// Data
+import featuredDelights from '@/data/featured-delights';
+import testimonials from '@/data/testimonials';
+import openingHours from '@/data/opening-hours';
+import contactInfo from '@/data/contact-info';
+import imageGallery from '@/data/image-gallery';
+---
+
+<MainLayout>
+  <!-- Hero Section -->
+  <section
+    class="container flex flex-col-reverse gap-6 lg:flex-row lg:gap-0 lg:pb-24 lg:pt-20"
+  >
+    <div class="flex flex-col gap-3 lg:max-w-md lg:gap-8 xl:max-w-[40rem]">
+      <h1
+        class="font-primary text-heading-4xl font-bold lg:text-heading-5xl xl:text-heading-6xl"
+      >
+        Fresh Cakes & Brownies Made Daily
+      </h1>
+      <p
+        class="font-secondary text-body-md text-secondary lg:text-body-lg xl:text-body-xl"
+      >
+        Delicious brownies, cakes, and pastries made fresh in Lalitpur, Nepal. 
+        Quality ingredients, great taste.
+      </p>
+      <ButtonLink 
+        href="/menu" 
+        className="mt-[0.75rem] lg:mt-[0.375rem] lg:w-fit xl:mt-[0.46875rem]"
+      >
+        <span>View Our Menu</span>
+        <Icon name="heroicons:arrow-long-right-20-solid" className="h-5 w-5" />
+      </ButtonLink>
+    </div>
+    <div
+      class="relative aspect-video flex-1 overflow-hidden rounded-md drop-shadow lg:aspect-auto lg:overflow-visible"
+    >
+      <Image
+        id="hero-image"
+        src={heroImage}
+        alt="CocoBakes delicious baked goods"
+        width={512}
+        height={512}
+        class="pointer-events-none absolute top-1/2 w-full -translate-y-1/2 lg:right-0 lg:max-w-md xl:max-w-lg"
+      />
+    </div>
+  </section>
+
+  <!-- Featured Items Section -->
+  <section id="menu" class="container flex flex-col gap-8 py-16 lg:gap-16 lg:py-24">
+    <header class="space-y-3 lg:text-center">
+      <h2
+        class="font-primary text-heading-3xl font-bold text lg:text-heading-4xl"
+      >
+        Popular Items
+      </h2>
+      <p
+        class="font-secondary text-body-md font-regular text-secondary lg:text-body-lg"
+      >
+        Our best-selling treats that customers love
+      </p>
+    </header>
+    <ul class="flex flex-col gap-8 lg:flex-row">
+      {
+        featuredDelights.map((delight) => (
+          <li class="flex-1">
+            <FeaturedDelightCard 
+              imageSrc={delight.image.src}
+              title={delight.title}
+              description={delight.description}
+            />
+          </li>
+        ))
+      }
+    </ul>
+    <div class="flex justify-center">
+      <ButtonLink 
+        href="/menu" 
+        size="large"
+        className="w-full sm:w-auto"
+      >
+        <span>See Full Menu</span>
+        <Icon name="heroicons:arrow-long-right-20-solid" className="h-5 w-5" />
+      </ButtonLink>
+    </div>
+  </section>
+
+  <Seperator />
+
+  <!-- Testimonials Section -->
+  <section class="container flex flex-col gap-8 py-16 lg:gap-16 lg:py-24">
+    <header class="space-y-3 lg:text-center">
+      <h2
+        class="font-primary text-heading-3xl font-bold text lg:text-heading-4xl"
+      >
+        What Customers Say
+      </h2>
+      <p
+        class="font-secondary text-body-md font-regular text-secondary lg:text-body-lg"
+      >
+        Reviews from our customers
+      </p>
+    </header>
+    
+    <!-- Top 3 Testimonials -->
+    <div class="flex flex-col gap-6 lg:flex-row lg:gap-8">
+      <div class="flex-1">
+        <TestimonialCard
+          imageSrc={testimonials.firstColumn[0].image.src}
+          name={testimonials.firstColumn[0].name}
+          text={testimonials.firstColumn[0].text}
+          className="h-full lg:bg-surface"
+        />
+      </div>
+      <div class="flex-1">
+        <TestimonialCard
+          imageSrc={testimonials.secondColumn[0].image.src}
+          name={testimonials.secondColumn[0].name}
+          text={testimonials.secondColumn[0].text}
+          className="h-full lg:bg-surface"
+        />
+      </div>
+      <div class="flex-1">
+        <TestimonialCard
+          imageSrc={testimonials.thirdColumn[0].image.src}
+          name={testimonials.thirdColumn[0].name}
+          text={testimonials.thirdColumn[0].text}
+          className="h-full lg:bg-surface"
+        />
+      </div>
+    </div>
+
+    <!-- Credential Images Slideshow -->
+    <div class="mt-8 lg:mt-12">
+      <h3 class="mb-6 text-center font-primary text-heading-2xl font-bold lg:text-heading-3xl">
+        Customer Photos
+      </h3>
+      <div class="relative overflow-hidden rounded-lg bg-surface p-4">
+        <div class="flex gap-4 animate-scroll">
+          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+1" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+2" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+3" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+4" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+5" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+6" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+          <!-- Duplicate for seamless loop -->
+          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+1" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+2" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+3" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+4" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+5" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+6" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+        </div>
+      </div>
+      <p class="mt-4 text-center font-secondary text-body-sm text-secondary">
+        Replace these placeholder images with actual customer photos/screenshots
+      </p>
+    </div>
+  </section>
+
+  <Seperator />
+
+  <!-- Gallery Section -->
+  <section id="gallery" class="container flex flex-col gap-8 py-16 lg:gap-16 lg:py-24">
+    <header class="space-y-3 lg:text-center">
+      <h2
+        class="font-primary text-heading-3xl font-bold text lg:text-heading-4xl"
+      >
+        Gallery
+      </h2>
+      <p
+        class="font-secondary text-body-md font-regular text-secondary lg:text-body-lg"
+      >
+        Click to view full size
+      </p>
+    </header>
+    <ImageGallery
+      images={[
+        ...imageGallery.firstColumn.map((img, i) => ({ src: img.src, alt: `Classic Bakery Item ${i + 1}`, category: 'bakery' })),
+        ...imageGallery.secondColumn.map((img, i) => ({ src: img.src, alt: `Specialty Treat ${i + 1}`, category: 'specialty' })),
+        ...imageGallery.thirdColumn.map((img, i) => ({ src: img.src, alt: `Custom Creation ${i + 1}`, category: 'custom' })),
+      ]}
+      client:visible
+    />
+  </section>
+
+  <Seperator />
+
+  <!-- Order Section with Social Media Buttons -->
+  <section class="container flex flex-col gap-8 py-16 lg:gap-12 lg:py-24">
+    <header class="space-y-3 lg:text-center">
+      <h2
+        class="font-primary text-heading-3xl font-bold text lg:text-heading-4xl"
+      >
+        Order Now
+      </h2>
+      <p
+        class="font-secondary text-body-md font-regular text-secondary lg:text-body-lg"
+      >
+        Choose your preferred platform
+      </p>
+    </header>
+    <div class="flex flex-col gap-3 sm:flex-row sm:justify-center lg:gap-4">
+      <ButtonLink 
+        href="https://wa.me/9779849805290" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        variant="whatsapp"
+        className="w-full sm:w-auto"
+      >
+        <Icon name="ic:baseline-whatsapp" className="h-5 w-5" client:load />
+        <span>WhatsApp</span>
+      </ButtonLink>
+      <ButtonLink 
+        href="https://ig.me/m/cocobakes.np" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        variant="instagram"
+        className="w-full sm:w-auto"
+      >
+        <Icon name="mdi:instagram" className="h-5 w-5" client:load />
+        <span>Instagram</span>
+      </ButtonLink>
+      <ButtonLink 
+        href="https://m.me/cocobakes.np" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        variant="facebook"
+        className="w-full sm:w-auto"
+      >
+        <Icon name="ic:baseline-facebook" className="h-5 w-5" client:load />
+        <span>Facebook</span>
+      </ButtonLink>
+    </div>
+    
+    <!-- Phone Number -->
+    <div class="flex justify-center mt-4">
+      <a 
+        href={contactInfo.phone.href}
+        class="flex items-center gap-3 text-heading-xl font-primary font-medium text hover:text-brand transition-colors"
+      >
+        <Icon name="heroicons:phone-solid" className="h-6 w-6 text-brand" client:load />
+        <span>{contactInfo.phone.text}</span>
+      </a>
+    </div>
+  </section>
+
+  <Seperator />
+
+  <!-- Craft Section (teaser) -->
+  <section id="craft" class="bg-surface py-16 lg:py-24">
+    <div class="container">
+      <header class="mb-8 space-y-3 lg:mb-12 lg:text-center">
+        <h2
+          class="font-primary text-heading-3xl font-bold text lg:text-heading-4xl"
+        >
+          Craft Your Own
+        </h2>
+        <p
+          class="font-secondary text-body-md font-regular text-secondary lg:mx-auto lg:max-w-2xl lg:text-body-lg"
+        >
+          Customize brownies, cakes, or other treats to your liking.
+        </p>
+      </header>
+
+      <div class="mx-auto max-w-3xl rounded-xl bg-bg p-6 shadow-of-bg-surface lg:p-8">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div class="space-y-2">
+            <p class="font-primary text-heading-xl font-bold text-brand">Quick craft options</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="rounded-full bg-fill-brand/10 px-3 py-1 text-body-sm text-brand">Brownies</span>
+              <span class="rounded-full bg-fill-brand/10 px-3 py-1 text-body-sm text-brand">Cheesecake</span>
+              <span class="rounded-full bg-fill-brand/10 px-3 py-1 text-body-sm text-brand">Cookies</span>
+            </div>
+            <p class="font-secondary text-body-sm text-secondary">
+              Use the full Craft page to customize and order.
+            </p>
+          </div>
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <ButtonLink href="/craft" className="w-full sm:w-auto">
+              <Icon name="heroicons:sparkles-solid" className="h-5 w-5" />
+              <span>Craft brownies</span>
+            </ButtonLink>
+            <ButtonLink href="/craft" variant="secondary" className="w-full sm:w-auto">
+              <span>Craft more items</span>
+              <Icon name="heroicons:arrow-long-right-20-solid" className="h-5 w-5" />
+            </ButtonLink>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Seperator flip />
+
+  <!-- Opening Hours Section -->
+  <section class="bg-surface py-16 lg:py-24">
+    <div
+      class="container flex flex-col gap-6 lg:flex-row-reverse lg:items-center lg:gap-16"
+    >
+      <div class="flex-1">
+        <Image
+          src={openingHoursImage}
+          alt="CocoBakes fresh baked goods"
+          width={576}
+          class="aspect-video w-full rounded-md object-cover object-top shadow-of-bg-surface lg:aspect-4/3"
+        />
+      </div>
+      <div class="flex flex-1 flex-col gap-2 lg:gap-4">
+        <h2
+          class="font-primary text-heading-2xl font-bold text lg:text-heading-3xl xl:text-heading-4xl"
+        >
+          Opening Hours
+        </h2>
+        <ul class="font-secondary text-body-md text-secondary xl:text-body-lg">
+          {
+            openingHours.map(({ days, hours }) => (
+              <li class="flex justify-between border-b border-primary py-3 last:border-none">
+                <p>{days}</p>
+                <p>{hours}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <ButtonLink 
+          href="#contact" 
+          className="mt-[0.25rem] lg:mt-[0.234375rem] lg:w-fit xl:mt-[0.28125rem]"
+        >
+          <span>Contact us</span>
+          <Icon name="heroicons:arrow-long-right-20-solid" className="h-5 w-5" />
+        </ButtonLink>
+      </div>
+    </div>
+  </section>
+
+  <Seperator flip />
+
+  <!-- Contact Section -->
+  <section id="contact" class="scroll-mt-32">
+    <div class="bg py-8 lg:pt-24">
+      <div class="container">
+        <header class="space-y-3">
+          <h2
+            class="font-primary text-heading-3xl font-bold text lg:text-heading-4xl"
+          >
+            Get in Touch
+          </h2>
+          <p
+            class="font-secondary text-body-md font-regular text-secondary lg:text-body-lg"
+          >
+            Ready to order? Have questions? Reach out to us!
+          </p>
+        </header>
+      </div>
+    </div>
+    <Seperator className="before:-z-10 after:-z-10" />
+    <div class="bg-surface">
+      <div class="flex flex-col lg:container lg:flex-row lg:gap-16">
+        <ul class="container flex-1 space-y-3 py-8 lg:mx-0 lg:max-w-none lg:px-0 lg:pb-24">
+          <li class="w-fit">
+            <a
+              href={contactInfo.phone.href}
+              class="group flex items-center gap-2 hover:text lg:gap-3"
+            >
+              <Icon name="heroicons:phone-20-solid" className="h-5 w-5 text-fill" client:load />
+              <Icon name="heroicons:phone-20-solid" className="h-5 w-5 text-fill" />
+              <span class="font-secondary text-body-md text-secondary group-hover:text group-hover:underline">
+                {contactInfo.phone.text}
+              </span>
+            </a>
+          </li>
+          <li class="w-fit">
+            <a
+              href={contactInfo.address.href}
+              class="group flex items-center gap-2 hover:text lg:gap-3"
+            >
+              <Icon name="heroicons:map-pin-20-solid" className="h-5 w-5 text-fill" client:load />
+              <Icon name="heroicons:map-pin-20-solid" className="h-5 w-5 text-fill" />
+              <span class="font-secondary text-body-md text-secondary group-hover:text group-hover:underline">
+                {contactInfo.address.text}
+              </span>
+            </a>
+          </li>
+          <li class="w-fit">
+            <a
+              href={contactInfo.whatsapp.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group flex items-center gap-2 hover:text lg:gap-3"
+            >
+              <Icon name="heroicons:chat-bubble-left-right-20-solid" className="h-5 w-5 text-fill" client:load />
+              <Icon name="heroicons:chat-bubble-left-right-20-solid" className="h-5 w-5 text-fill" />
+              <span class="font-secondary text-body-md text-secondary group-hover:text group-hover:underline">
+                {contactInfo.whatsapp.text}
+              </span>
+            </a>
+          </li>
+        </ul>
+        <Seperator flip className="lg:hidden" />
+        <div class="bg lg:flex-1 lg:bg-surface">
+          <ContactForm
+            className="container h-fit lg:mx-0 lg:-mt-[11.1875rem] lg:max-w-none lg:px-8"
+            client:visible
+          />
+        </div>
+      </div>
+    </div>
+    <Seperator className="lg:hidden" />
+  </section>
+</MainLayout>
+
+<style>
+  #hero-image {
+    -webkit-mask-image: url('/hero-image-mask-desktop.png');
+    mask-image: url('/hero-image-mask-desktop.png');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+  }
+
+  @media (max-width: 1023px) {
+    #hero-image {
+      -webkit-mask-image: url('/hero-image-mask-mobile.png');
+      mask-image: url('/hero-image-mask-mobile.png');
+    }
+  }
+
+  .animate-scroll {
+    animation: scroll 20s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll:hover {
+    animation-play-state: paused;
+  }
+</style>
