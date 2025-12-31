@@ -6,15 +6,17 @@ interface LogoProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   showText?: boolean;
 }
 
+// Ensure base path has trailing slash
+const rawBase = import.meta.env.BASE_URL || '/';
+const basePath = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+
 export function Logo({ 
-  href = import.meta.env.BASE_URL || '/', 
+  href = basePath, 
   className, 
   variant = 'text',
   showText = false,
   ...props 
 }: LogoProps) {
-  const basePath = import.meta.env.BASE_URL || '/';
-  
   if (variant === 'circular') {
     return (
       <a href={href} className={cx('block', className)} {...props}>

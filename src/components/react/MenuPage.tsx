@@ -150,7 +150,7 @@ export function MenuPage() {
             Create your own perfect brownie with our Brownie Builder!
           </p>
           <a
-            href="/craft"
+            href={`${import.meta.env.BASE_URL}/craft`}
             className="inline-flex items-center gap-2 rounded-lg bg-fill px-6 py-3 font-primary font-semibold text-on-bg-fill transition-all duration-200 hover:bg-fill-hover hover:shadow-lg hover:scale-[1.03] active:scale-[0.98]"
           >
             <Icon icon="heroicons:sparkles-solid" className="h-5 w-5" />

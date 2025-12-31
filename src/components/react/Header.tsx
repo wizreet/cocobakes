@@ -6,10 +6,12 @@ import NavLink from './NavLink';
 import { ButtonLink } from './Button';
 import contactInfo from '../../data/contact-info';
 
-const basePath = import.meta.env.BASE_URL || '/';
+// Ensure base path has trailing slash
+const rawBase = import.meta.env.BASE_URL || '/';
+const basePath = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
 
 const navLinks = [
-  { href: `${basePath}`, text: 'Home', icon: 'heroicons:home-solid' },
+  { href: basePath, text: 'Home', icon: 'heroicons:home-solid' },
   { href: `${basePath}menu`, text: 'Menu', icon: 'heroicons:cake-solid' },
   { href: `${basePath}craft`, text: 'Craft Your Own', icon: 'heroicons:sparkles-solid' },
   { href: `${basePath}gallery`, text: 'Gallery', icon: 'heroicons:photo-solid' },

@@ -41,7 +41,7 @@ import imageGallery from '@/data/image-gallery';
         Quality ingredients, great taste.
       </p>
       <ButtonLink 
-        href="/menu" 
+        href={`${import.meta.env.BASE_URL}/menu`}
         className="mt-[0.75rem] lg:mt-[0.375rem] lg:w-fit xl:mt-[0.46875rem]"
       >
         <span>View Our Menu</span>
@@ -91,7 +91,7 @@ import imageGallery from '@/data/image-gallery';
     </ul>
     <div class="flex justify-center">
       <ButtonLink 
-        href="/menu" 
+        href={`${import.meta.env.BASE_URL}/menu`}
         size="large"
         className="w-full sm:w-auto"
       >
@@ -293,11 +293,11 @@ import imageGallery from '@/data/image-gallery';
             </p>
           </div>
           <div class="flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/craft" className="w-full sm:w-auto">
+            <ButtonLink href={`${import.meta.env.BASE_URL}/craft`} className="w-full sm:w-auto">
               <Icon name="heroicons:sparkles-solid" className="h-5 w-5" />
               <span>Craft brownies</span>
             </ButtonLink>
-            <ButtonLink href="/craft" variant="secondary" className="w-full sm:w-auto">
+            <ButtonLink href={`${import.meta.env.BASE_URL}/craft`} variant="secondary" className="w-full sm:w-auto">
               <span>Craft more items</span>
               <Icon name="heroicons:arrow-long-right-20-solid" className="h-5 w-5" />
             </ButtonLink>
