@@ -57,7 +57,7 @@ export function Logo({
       {...props}
     >
       <img 
-        src="/LogoCircular.jpeg" 
+        src={`${basePath}LogoCircular.jpeg`}
         alt="" 
         className="h-8 w-8 rounded-full object-cover lg:h-10 lg:w-10"
       />

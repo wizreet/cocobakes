@@ -4,7 +4,8 @@ import react from '@astrojs/react';
 
 export default defineConfig({
   site: 'https://wizreet.github.io',
-  base: '/cocobakes',
+  base: '/cocobakes/',
+  trailingSlash: 'ignore',
   integrations: [
     tailwind(),
     react(),
