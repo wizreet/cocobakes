@@ -1,0 +1,313 @@
+---
+/**
+ * Offers Page
+ * Displays all current promotions and special offers
+ * Allows customers to learn about offers and contact for orders
+ */
+import MainLayout from '@/layouts/MainLayout.astro';
+import { ButtonLink, Icon, Seperator, ContactForm } from '@/components/react';
+import { getActiveOffers, offerContact, type Offer } from '@/data/offers';
+import { BUSINESS, SOCIAL_URLS } from '@/constants';
+
+// Get active offers
+const activeOffers = getActiveOffers();
+const hasOffers = activeOffers.length > 0;
+
+// Format date for display
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+---
+
+<MainLayout
+  title="Special Offers - CocoBakes"
+  description="Check out our latest promotions and special offers. Valentine's specials, bundle deals, and more!"
+>
+  <!-- Page Header -->
+  <section class="container py-12 lg:py-16">
+    <div class="mx-auto max-w-4xl text-center">
+      <h1 class="font-primary text-heading-4xl font-bold lg:text-heading-5xl">
+        🎁 Special Offers
+      </h1>
+      <p class="mt-4 font-secondary text-body-lg text-secondary">
+        Delicious deals on our handcrafted brownies and treats. Don't miss out!
+      </p>
+    </div>
+  </section>
+
+  <Seperator className="container" />
+
+  <!-- Active Offers Section -->
+  <section class="container py-12">
+    {
+      hasOffers ? (
+        <div class="mx-auto max-w-4xl space-y-8">
+          {activeOffers.map((offer: Offer) => (
+            <article
+              class:list={[
+                'relative overflow-hidden rounded-xl',
+                offer.highlight
+                  ? 'bg-fill text-on-bg-fill shadow-of-bg-fill'
+                  : 'bg-surface shadow-of-bg-surface',
+              ]}
+            >
+              {/* Offer Image Poster */}
+              {offer.image && (
+                <div class="relative aspect-[16/9] w-full overflow-hidden lg:aspect-[21/9]">
+                  <img
+                    src={offer.image}
+                    alt={offer.title}
+                    class="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                  {/* Gradient overlay for text readability */}
+                  <div class="from-black/60 via-transparent to-transparent absolute inset-0 bg-gradient-to-t" />
+
+                  {/* Highlight badge on image */}
+                  {offer.highlight && (
+                    <div class="bg-white/90 absolute right-4 top-4 rounded-full px-3 py-1 text-sm font-bold text-brand">
+                      ⭐ Featured
+                    </div>
+                  )}
+
+                  {/* Discount badge on image */}
+                  {offer.discount && (
+                    <div class="shadow-lg absolute bottom-4 left-4 rounded-lg bg-fill px-4 py-2 text-lg font-bold text-on-bg-fill">
+                      {offer.discount}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Content section */}
+              <div class="p-6 lg:p-8">
+                {/* Highlight badge - only when no image */}
+                {offer.highlight && !offer.image && (
+                  <div class="bg-white/20 absolute right-4 top-4 rounded-full px-3 py-1 text-sm font-bold">
+                    ⭐ Featured
+                  </div>
+                )}
+
+                {/* Offer header */}
+                <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                  <div class="flex-1">
+                    <div class="flex items-center gap-3">
+                      {offer.emoji && (
+                        <span class="text-3xl" role="img" aria-hidden="true">
+                          {offer.emoji}
+                        </span>
+                      )}
+                      <h2 class="font-primary text-heading-2xl font-bold lg:text-heading-3xl">
+                        {offer.title}
+                      </h2>
+                    </div>
+
+                    {/* Discount badge - only show when no image */}
+                    {offer.discount && !offer.image && (
+                      <div
+                        class:list={[
+                          'mt-3 inline-block rounded-lg px-4 py-2 text-lg font-bold',
+                          offer.highlight
+                            ? 'bg-white/20 text-on-bg-fill'
+                            : 'bg-fill text-on-bg-fill',
+                        ]}
+                      >
+                        {offer.discount}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Date range */}
+                  <div
+                    class:list={[
+                      'text-sm',
+                      offer.highlight ? 'text-on-bg-fill/80' : 'text-secondary',
+                    ]}
+                  >
+                    <Icon
+                      name="heroicons:calendar-solid"
+                      className="mr-1 inline-block h-4 w-4"
+                    />
+                    {formatDate(offer.startDate)} - {formatDate(offer.endDate)}
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div
+                  class:list={[
+                    'mt-6 whitespace-pre-line font-secondary text-body-md lg:text-body-lg',
+                    offer.highlight ? 'text-on-bg-fill/90' : 'text-secondary',
+                  ]}
+                >
+                  {offer.description}
+                </div>
+
+                {/* Terms */}
+                {offer.terms && offer.terms.length > 0 && (
+                  <div class="mt-6">
+                    <h3
+                      class:list={[
+                        'font-bold',
+                        offer.highlight ? 'text-on-bg-fill' : 'text-brand',
+                      ]}
+                    >
+                      Terms & Conditions:
+                    </h3>
+                    <ul
+                      class:list={[
+                        'mt-2 list-inside list-disc space-y-1 text-sm',
+                        offer.highlight
+                          ? 'text-on-bg-fill/80'
+                          : 'text-secondary',
+                      ]}
+                    >
+                      {offer.terms.map((term: string) => (
+                        <li>{term}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* CTA Button */}
+                <div class="mt-8 flex flex-wrap gap-4">
+                  <ButtonLink
+                    href={`${SOCIAL_URLS.WHATSAPP}?text=${encodeURIComponent(offerContact.message + offer.title)}`}
+                    variant="whatsapp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon name="mdi:whatsapp" className="h-5 w-5" />
+                    <span>Order via WhatsApp</span>
+                  </ButtonLink>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        /* No active offers message */ <div class="mx-auto max-w-2xl rounded-xl bg-surface p-8 text-center shadow-of-bg-surface">
+          <div class="text-5xl">🍫</div>
+          <h2 class="mt-4 font-primary text-heading-2xl font-bold">
+            No Active Offers Right Now
+          </h2>
+          <p class="mt-2 text-secondary">
+            Check back soon for delicious deals! Follow us on Instagram for the
+            latest updates.
+          </p>
+          <div class="mt-6 flex flex-wrap justify-center gap-4">
+            <ButtonLink
+              href={SOCIAL_URLS.INSTAGRAM}
+              variant="primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon name="mdi:instagram" className="h-5 w-5" />
+              <span>Follow on Instagram</span>
+            </ButtonLink>
+            <ButtonLink
+              href={`${import.meta.env.BASE_URL}menu`}
+              variant="secondary"
+            >
+              <span>View Our Menu</span>
+              <Icon
+                name="heroicons:arrow-long-right-20-solid"
+                className="h-5 w-5"
+              />
+            </ButtonLink>
+          </div>
+        </div>
+      )
+    }
+  </section>
+
+  <Seperator className="container" />
+
+  <!-- How to Order Section -->
+  <section class="container py-12">
+    <div class="mx-auto max-w-4xl">
+      <h2
+        class="text-center font-primary text-heading-3xl font-bold lg:text-heading-4xl"
+      >
+        How to Order
+      </h2>
+      <p class="mt-2 text-center text-secondary">
+        It's easy! Choose your preferred way to reach us.
+      </p>
+
+      <div class="mt-8 grid gap-6 md:grid-cols-3">
+        <!-- WhatsApp -->
+        <a
+          href={SOCIAL_URLS.WHATSAPP}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:shadow-lg group rounded-xl bg-surface p-6 text-center shadow-of-bg-surface transition-all hover:scale-[1.02]"
+        >
+          <div
+            class="text-white mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] transition-transform group-hover:scale-110"
+          >
+            <Icon name="mdi:whatsapp" className="h-8 w-8" />
+          </div>
+          <h3 class="mt-4 font-primary text-heading-xl font-bold">WhatsApp</h3>
+          <p class="mt-2 text-sm text-secondary">Quick & easy messaging</p>
+          <p class="font-medium mt-2 text-brand">{BUSINESS.PHONE}</p>
+        </a>
+
+        <!-- Instagram -->
+        <a
+          href={SOCIAL_URLS.INSTAGRAM_DM}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:shadow-lg group rounded-xl bg-surface p-6 text-center shadow-of-bg-surface transition-all hover:scale-[1.02]"
+        >
+          <div
+            class="text-white mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737] transition-transform group-hover:scale-110"
+          >
+            <Icon name="mdi:instagram" className="h-8 w-8" />
+          </div>
+          <h3 class="mt-4 font-primary text-heading-xl font-bold">Instagram</h3>
+          <p class="mt-2 text-sm text-secondary">DM us directly</p>
+          <p class="font-medium mt-2 text-brand">@cocobakes.np</p>
+        </a>
+
+        <!-- Phone -->
+        <a
+          href={`tel:${BUSINESS.PHONE_RAW}`}
+          class="hover:shadow-lg group rounded-xl bg-surface p-6 text-center shadow-of-bg-surface transition-all hover:scale-[1.02]"
+        >
+          <div
+            class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-fill text-on-bg-fill transition-transform group-hover:scale-110"
+          >
+            <Icon name="heroicons:phone-solid" className="h-8 w-8" />
+          </div>
+          <h3 class="mt-4 font-primary text-heading-xl font-bold">Call Us</h3>
+          <p class="mt-2 text-sm text-secondary">Speak directly</p>
+          <p class="font-medium mt-2 text-brand">{BUSINESS.PHONE}</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Seperator className="container" />
+
+  <!-- Contact Form Section -->
+  <section id="contact" class="container py-12">
+    <div class="mx-auto max-w-2xl">
+      <h2
+        class="text-center font-primary text-heading-3xl font-bold lg:text-heading-4xl"
+      >
+        Send Us a Message
+      </h2>
+      <p class="mt-2 text-center text-secondary">
+        Have questions about our offers? We'd love to hear from you!
+      </p>
+      <div class="mt-8">
+        <ContactForm client:visible />
+      </div>
+    </div>
+  </section>
+</MainLayout>

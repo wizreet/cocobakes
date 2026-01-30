@@ -1,33 +1,40 @@
-// Full menu items with categories and pricing
+/**
+ * Menu Items Configuration
+ * Full menu with categories, pricing, and product information
+ */
+
 import cinnamonRollsImage from '@/assets/cinnamon-rolls.jpg';
 import artisanalBreadImage from '@/assets/artisanal-bread.jpg';
 import sugarCookiesImage from '@/assets/sugar-cookies.jpg';
+import { formatPrice as formatPriceUtil } from '@/utils';
+import type { MenuItem as MenuItemType, MenuCategoryInfo } from '@/types';
 
-export interface MenuItem {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  image: ImageMetadata;
-  category: 'signature' | 'premium' | 'specialty' | 'seasonal';
-  isPopular?: boolean;
-  isNew?: boolean;
-}
+// Re-export the type for backwards compatibility
+export type MenuItem = MenuItemType;
 
-export const menuCategories = [
+// ============================================================================
+// Menu Categories
+// ============================================================================
+
+export const menuCategories: readonly MenuCategoryInfo[] = [
   { id: 'all', name: 'All Items' },
   { id: 'signature', name: 'Signature Brownies' },
   { id: 'premium', name: 'Premium Collection' },
   { id: 'specialty', name: 'Specialty Treats' },
   { id: 'seasonal', name: 'Seasonal Specials' },
-];
+] as const;
 
-const menuItems: MenuItem[] = [
+// ============================================================================
+// Menu Items
+// ============================================================================
+
+const menuItems: readonly MenuItem[] = [
   // Signature Brownies
   {
     id: 'classic-fudge',
     name: 'Classic Fudge Brownie',
-    description: 'Our bestseller! Rich, dense, and irresistibly gooey chocolate brownies made with premium cocoa.',
+    description:
+      'Our bestseller! Rich, dense, and irresistibly gooey chocolate brownies made with premium cocoa.',
     price: 150,
     image: cinnamonRollsImage,
     category: 'signature',
@@ -36,7 +43,8 @@ const menuItems: MenuItem[] = [
   {
     id: 'walnut-crunch',
     name: 'Walnut Crunch Brownie',
-    description: 'Classic fudgy brownies loaded with crunchy roasted walnuts for the perfect texture.',
+    description:
+      'Classic fudgy brownies loaded with crunchy roasted walnuts for the perfect texture.',
     price: 180,
     image: artisanalBreadImage,
     category: 'signature',
@@ -50,12 +58,13 @@ const menuItems: MenuItem[] = [
     category: 'signature',
     isPopular: true,
   },
-  
+
   // Premium Collection
   {
     id: 'double-chocolate',
     name: 'Double Chocolate Chunk',
-    description: 'Loaded with dark and white chocolate chunks for ultimate chocolate lovers.',
+    description:
+      'Loaded with dark and white chocolate chunks for ultimate chocolate lovers.',
     price: 220,
     image: cinnamonRollsImage,
     category: 'premium',
@@ -63,7 +72,8 @@ const menuItems: MenuItem[] = [
   {
     id: 'salted-caramel',
     name: 'Salted Caramel Brownie',
-    description: 'Gooey caramel ribbons with sea salt flakes on rich chocolate base.',
+    description:
+      'Gooey caramel ribbons with sea salt flakes on rich chocolate base.',
     price: 250,
     image: artisanalBreadImage,
     category: 'premium',
@@ -72,18 +82,20 @@ const menuItems: MenuItem[] = [
   {
     id: 'nutella-stuffed',
     name: 'Nutella Stuffed Brownie',
-    description: 'Decadent brownies with a molten Nutella center that oozes with every bite.',
+    description:
+      'Decadent brownies with a molten Nutella center that oozes with every bite.',
     price: 280,
     image: sugarCookiesImage,
     category: 'premium',
     isNew: true,
   },
-  
+
   // Specialty Treats
   {
     id: 'red-velvet',
     name: 'Red Velvet Brownie',
-    description: 'Stunning red velvet brownies topped with cream cheese frosting.',
+    description:
+      'Stunning red velvet brownies topped with cream cheese frosting.',
     price: 200,
     image: cinnamonRollsImage,
     category: 'specialty',
@@ -91,7 +103,8 @@ const menuItems: MenuItem[] = [
   {
     id: 'blondie',
     name: 'Classic Blondie',
-    description: 'Buttery vanilla brownies with brown sugar and white chocolate chips.',
+    description:
+      'Buttery vanilla brownies with brown sugar and white chocolate chips.',
     price: 160,
     image: artisanalBreadImage,
     category: 'specialty',
@@ -99,17 +112,19 @@ const menuItems: MenuItem[] = [
   {
     id: 'peanut-butter',
     name: 'Peanut Butter Swirl',
-    description: 'Chocolate brownies swirled with creamy peanut butter for a perfect combo.',
+    description:
+      'Chocolate brownies swirled with creamy peanut butter for a perfect combo.',
     price: 190,
     image: sugarCookiesImage,
     category: 'specialty',
   },
-  
+
   // Seasonal Specials
   {
     id: 'matcha-white-choc',
     name: 'Matcha White Chocolate',
-    description: 'Japanese matcha brownies with white chocolate drizzle. Limited edition!',
+    description:
+      'Japanese matcha brownies with white chocolate drizzle. Limited edition!',
     price: 300,
     image: cinnamonRollsImage,
     category: 'seasonal',
@@ -126,16 +141,23 @@ const menuItems: MenuItem[] = [
   {
     id: 'brownie-cake',
     name: 'Brownie Layer Cake',
-    description: 'Three layers of brownie with chocolate ganache. Perfect for celebrations!',
+    description:
+      'Three layers of brownie with chocolate ganache. Perfect for celebrations!',
     price: 1500,
     image: sugarCookiesImage,
     category: 'seasonal',
     isPopular: true,
   },
-];
+] as const;
 
-export const formatPrice = (price: number): string => {
-  return `NPR ${price.toLocaleString('en-NP')}`;
-};
+// ============================================================================
+// Utility Functions
+// ============================================================================
+
+/**
+ * Format price in NPR currency
+ * @deprecated Use formatPrice from @/utils instead
+ */
+export const formatPrice = formatPriceUtil;
 
 export default menuItems;

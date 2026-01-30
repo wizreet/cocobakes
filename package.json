@@ -6,8 +6,16 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
+    "build:analyze": "astro build && npx source-map-explorer dist/**/*.js --html build-analysis.html",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "lint": "eslint src --ext .ts,.tsx,.astro",
+    "lint:fix": "eslint src --ext .ts,.tsx,.astro --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,astro,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,astro,css,md}\"",
+    "typecheck": "astro check",
+    "clean": "rm -rf dist node_modules/.cache",
+    "check:all": "pnpm lint && pnpm typecheck && pnpm build"
   },
   "dependencies": {
     "@astrojs/check": "^0.3.1",
@@ -32,6 +40,12 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.45",
-    "@types/react-dom": "^18.2.18"
+    "@types/react-dom": "^18.2.18",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "eslint": "^8.55.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0"
   }
 }

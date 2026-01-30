@@ -1,19 +1,20 @@
 ---
-import { Image } from 'astro:assets';
 import MainLayout from '@/layouts/MainLayout.astro';
-import { 
-  ButtonLink, 
-  Seperator, 
-  FeaturedDelightCard, 
-  TestimonialCard, 
+import {
+  ButtonLink,
+  Seperator,
+  FeaturedDelightCard,
+  TestimonialCard,
   ContactForm,
   Icon,
-  ImageGallery
+  ImageGallery,
+  OfferBanner,
 } from '@/components/react';
+import { hasActiveOffers } from '@/data/offers';
 
-// Images
-import heroImage from '@/assets/ceyda-ciftci-OSwM-hfJoBQ-unsplash.jpg';
-import openingHoursImage from '@/assets/fabio-traina-6i6NJgCJ8k0-unsplash.jpg';
+// Images - using raw imports for static images
+import heroImageSrc from '@/assets/ceyda-ciftci-OSwM-hfJoBQ-unsplash.jpg';
+import openingHoursImageSrc from '@/assets/fabio-traina-6i6NJgCJ8k0-unsplash.jpg';
 
 // Data
 import featuredDelights from '@/data/featured-delights';
@@ -21,9 +22,23 @@ import testimonials from '@/data/testimonials';
 import openingHours from '@/data/opening-hours';
 import contactInfo from '@/data/contact-info';
 import imageGallery from '@/data/image-gallery';
+
+// Get image sources as strings
+const heroImage =
+  typeof heroImageSrc === 'string' ? heroImageSrc : heroImageSrc.src;
+const openingHoursImage =
+  typeof openingHoursImageSrc === 'string'
+    ? openingHoursImageSrc
+    : openingHoursImageSrc.src;
+
+// Check if offers are active
+const showOfferBanner = hasActiveOffers();
 ---
 
 <MainLayout>
+  <!-- Offer Banner -->
+  {showOfferBanner && <OfferBanner client:load />}
+
   <!-- Hero Section -->
   <section
     class="container flex flex-col-reverse gap-6 lg:flex-row lg:gap-0 lg:pb-24 lg:pt-20"
@@ -37,11 +52,11 @@ import imageGallery from '@/data/image-gallery';
       <p
         class="font-secondary text-body-md text-secondary lg:text-body-lg xl:text-body-xl"
       >
-        Delicious brownies, cakes, and pastries made fresh in Lalitpur, Nepal. 
+        Delicious brownies, cakes, and pastries made fresh in Lalitpur, Nepal.
         Quality ingredients, great taste.
       </p>
-      <ButtonLink 
-        href={`${import.meta.env.BASE_URL}/menu`}
+      <ButtonLink
+        href={`${import.meta.env.BASE_URL}menu`}
         className="mt-[0.75rem] lg:mt-[0.375rem] lg:w-fit xl:mt-[0.46875rem]"
       >
         <span>View Our Menu</span>
@@ -51,19 +66,25 @@ import imageGallery from '@/data/image-gallery';
     <div
       class="relative aspect-video flex-1 overflow-hidden rounded-md drop-shadow lg:aspect-auto lg:overflow-visible"
     >
-      <Image
+      <img
         id="hero-image"
         src={heroImage}
         alt="CocoBakes delicious baked goods"
-        width={512}
-        height={512}
+        width="512"
+        height="512"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
         class="pointer-events-none absolute top-1/2 w-full -translate-y-1/2 lg:right-0 lg:max-w-md xl:max-w-lg"
       />
     </div>
   </section>
 
   <!-- Featured Items Section -->
-  <section id="menu" class="container flex flex-col gap-8 py-16 lg:gap-16 lg:py-24">
+  <section
+    id="menu"
+    class="container flex flex-col gap-8 py-16 lg:gap-16 lg:py-24"
+  >
     <header class="space-y-3 lg:text-center">
       <h2
         class="font-primary text-heading-3xl font-bold text lg:text-heading-4xl"
@@ -80,7 +101,7 @@ import imageGallery from '@/data/image-gallery';
       {
         featuredDelights.map((delight) => (
           <li class="flex-1">
-            <FeaturedDelightCard 
+            <FeaturedDelightCard
               imageSrc={delight.image.src}
               title={delight.title}
               description={delight.description}
@@ -90,7 +111,7 @@ import imageGallery from '@/data/image-gallery';
       }
     </ul>
     <div class="flex justify-center">
-      <ButtonLink 
+      <ButtonLink
         href={`${import.meta.env.BASE_URL}/menu`}
         size="large"
         className="w-full sm:w-auto"
@@ -117,7 +138,7 @@ import imageGallery from '@/data/image-gallery';
         Reviews from our customers
       </p>
     </header>
-    
+
     <!-- Top 3 Testimonials -->
     <div class="flex flex-col gap-6 lg:flex-row lg:gap-8">
       <div class="flex-1">
@@ -148,24 +169,74 @@ import imageGallery from '@/data/image-gallery';
 
     <!-- Credential Images Slideshow -->
     <div class="mt-8 lg:mt-12">
-      <h3 class="mb-6 text-center font-primary text-heading-2xl font-bold lg:text-heading-3xl">
+      <h3
+        class="mb-6 text-center font-primary text-heading-2xl font-bold lg:text-heading-3xl"
+      >
         Customer Photos
       </h3>
       <div class="relative overflow-hidden rounded-lg bg-surface p-4">
-        <div class="flex gap-4 animate-scroll">
-          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+1" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
-          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+2" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
-          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+3" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
-          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+4" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
-          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+5" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
-          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+6" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+        <div class="animate-scroll flex gap-4">
+          <img
+            src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+1"
+            alt="Customer order"
+            class="h-80 w-auto flex-shrink-0 rounded-md object-cover"
+          />
+          <img
+            src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+2"
+            alt="Customer order"
+            class="h-80 w-auto flex-shrink-0 rounded-md object-cover"
+          />
+          <img
+            src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+3"
+            alt="Customer order"
+            class="h-80 w-auto flex-shrink-0 rounded-md object-cover"
+          />
+          <img
+            src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+4"
+            alt="Customer order"
+            class="h-80 w-auto flex-shrink-0 rounded-md object-cover"
+          />
+          <img
+            src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+5"
+            alt="Customer order"
+            class="h-80 w-auto flex-shrink-0 rounded-md object-cover"
+          />
+          <img
+            src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+6"
+            alt="Customer order"
+            class="h-80 w-auto flex-shrink-0 rounded-md object-cover"
+          />
           <!-- Duplicate for seamless loop -->
-          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+1" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
-          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+2" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
-          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+3" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
-          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+4" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
-          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+5" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
-          <img src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+6" alt="Customer order" class="h-80 w-auto rounded-md object-cover flex-shrink-0" />
+          <img
+            src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+1"
+            alt="Customer order"
+            class="h-80 w-auto flex-shrink-0 rounded-md object-cover"
+          />
+          <img
+            src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+2"
+            alt="Customer order"
+            class="h-80 w-auto flex-shrink-0 rounded-md object-cover"
+          />
+          <img
+            src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+3"
+            alt="Customer order"
+            class="h-80 w-auto flex-shrink-0 rounded-md object-cover"
+          />
+          <img
+            src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+4"
+            alt="Customer order"
+            class="h-80 w-auto flex-shrink-0 rounded-md object-cover"
+          />
+          <img
+            src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+5"
+            alt="Customer order"
+            class="h-80 w-auto flex-shrink-0 rounded-md object-cover"
+          />
+          <img
+            src="https://placehold.co/600x450/e8dcc8/5a4a3a?text=Customer+Order+6"
+            alt="Customer order"
+            class="h-80 w-auto flex-shrink-0 rounded-md object-cover"
+          />
         </div>
       </div>
       <p class="mt-4 text-center font-secondary text-body-sm text-secondary">
@@ -177,7 +248,10 @@ import imageGallery from '@/data/image-gallery';
   <Seperator />
 
   <!-- Gallery Section -->
-  <section id="gallery" class="container flex flex-col gap-8 py-16 lg:gap-16 lg:py-24">
+  <section
+    id="gallery"
+    class="container flex flex-col gap-8 py-16 lg:gap-16 lg:py-24"
+  >
     <header class="space-y-3 lg:text-center">
       <h2
         class="font-primary text-heading-3xl font-bold text lg:text-heading-4xl"
@@ -192,9 +266,21 @@ import imageGallery from '@/data/image-gallery';
     </header>
     <ImageGallery
       images={[
-        ...imageGallery.firstColumn.map((img, i) => ({ src: img.src, alt: `Classic Bakery Item ${i + 1}`, category: 'bakery' })),
-        ...imageGallery.secondColumn.map((img, i) => ({ src: img.src, alt: `Specialty Treat ${i + 1}`, category: 'specialty' })),
-        ...imageGallery.thirdColumn.map((img, i) => ({ src: img.src, alt: `Custom Creation ${i + 1}`, category: 'custom' })),
+        ...imageGallery.firstColumn.map((img, i) => ({
+          src: img.src,
+          alt: `Classic Bakery Item ${i + 1}`,
+          category: 'bakery',
+        })),
+        ...imageGallery.secondColumn.map((img, i) => ({
+          src: img.src,
+          alt: `Specialty Treat ${i + 1}`,
+          category: 'specialty',
+        })),
+        ...imageGallery.thirdColumn.map((img, i) => ({
+          src: img.src,
+          alt: `Custom Creation ${i + 1}`,
+          category: 'custom',
+        })),
       ]}
       client:visible
     />
@@ -217,30 +303,30 @@ import imageGallery from '@/data/image-gallery';
       </p>
     </header>
     <div class="flex flex-col gap-3 sm:flex-row sm:justify-center lg:gap-4">
-      <ButtonLink 
-        href="https://wa.me/9779849805290" 
-        target="_blank" 
-        rel="noopener noreferrer" 
+      <ButtonLink
+        href="https://wa.me/9779849805290"
+        target="_blank"
+        rel="noopener noreferrer"
         variant="whatsapp"
         className="w-full sm:w-auto"
       >
         <Icon name="ic:baseline-whatsapp" className="h-5 w-5" client:load />
         <span>WhatsApp</span>
       </ButtonLink>
-      <ButtonLink 
-        href="https://ig.me/m/cocobakes.np" 
-        target="_blank" 
-        rel="noopener noreferrer" 
+      <ButtonLink
+        href="https://ig.me/m/cocobakes.np"
+        target="_blank"
+        rel="noopener noreferrer"
         variant="instagram"
         className="w-full sm:w-auto"
       >
         <Icon name="mdi:instagram" className="h-5 w-5" client:load />
         <span>Instagram</span>
       </ButtonLink>
-      <ButtonLink 
-        href="https://m.me/cocobakes.np" 
-        target="_blank" 
-        rel="noopener noreferrer" 
+      <ButtonLink
+        href="https://m.me/cocobakes.np"
+        target="_blank"
+        rel="noopener noreferrer"
         variant="facebook"
         className="w-full sm:w-auto"
       >
@@ -248,14 +334,18 @@ import imageGallery from '@/data/image-gallery';
         <span>Facebook</span>
       </ButtonLink>
     </div>
-    
+
     <!-- Phone Number -->
-    <div class="flex justify-center mt-4">
-      <a 
+    <div class="mt-4 flex justify-center">
+      <a
         href={contactInfo.phone.href}
-        class="flex items-center gap-3 text-heading-xl font-primary font-medium text hover:text-brand transition-colors"
+        class="font-medium flex items-center gap-3 font-primary text-heading-xl text transition-colors hover:text-brand"
       >
-        <Icon name="heroicons:phone-solid" className="h-6 w-6 text-brand" client:load />
+        <Icon
+          name="heroicons:phone-solid"
+          className="h-6 w-6 text-brand"
+          client:load
+        />
         <span>{contactInfo.phone.text}</span>
       </a>
     </div>
@@ -279,27 +369,52 @@ import imageGallery from '@/data/image-gallery';
         </p>
       </header>
 
-      <div class="mx-auto max-w-3xl rounded-xl bg-bg p-6 shadow-of-bg-surface lg:p-8">
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div
+        class="bg-bg mx-auto max-w-3xl rounded-xl p-6 shadow-of-bg-surface lg:p-8"
+      >
+        <div
+          class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
+        >
           <div class="space-y-2">
-            <p class="font-primary text-heading-xl font-bold text-brand">Quick craft options</p>
+            <p class="font-primary text-heading-xl font-bold text-brand">
+              Quick craft options
+            </p>
             <div class="flex flex-wrap gap-2">
-              <span class="rounded-full bg-fill-brand/10 px-3 py-1 text-body-sm text-brand">Brownies</span>
-              <span class="rounded-full bg-fill-brand/10 px-3 py-1 text-body-sm text-brand">Cheesecake</span>
-              <span class="rounded-full bg-fill-brand/10 px-3 py-1 text-body-sm text-brand">Cookies</span>
+              <span
+                class="rounded-full bg-fill-brand/10 px-3 py-1 text-body-sm text-brand"
+                >Brownies</span
+              >
+              <span
+                class="rounded-full bg-fill-brand/10 px-3 py-1 text-body-sm text-brand"
+                >Cheesecake</span
+              >
+              <span
+                class="rounded-full bg-fill-brand/10 px-3 py-1 text-body-sm text-brand"
+                >Cookies</span
+              >
             </div>
             <p class="font-secondary text-body-sm text-secondary">
               Use the full Craft page to customize and order.
             </p>
           </div>
           <div class="flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href={`${import.meta.env.BASE_URL}/craft`} className="w-full sm:w-auto">
+            <ButtonLink
+              href={`${import.meta.env.BASE_URL}/craft`}
+              className="w-full sm:w-auto"
+            >
               <Icon name="heroicons:sparkles-solid" className="h-5 w-5" />
               <span>Craft brownies</span>
             </ButtonLink>
-            <ButtonLink href={`${import.meta.env.BASE_URL}/craft`} variant="secondary" className="w-full sm:w-auto">
+            <ButtonLink
+              href={`${import.meta.env.BASE_URL}/craft`}
+              variant="secondary"
+              className="w-full sm:w-auto"
+            >
               <span>Craft more items</span>
-              <Icon name="heroicons:arrow-long-right-20-solid" className="h-5 w-5" />
+              <Icon
+                name="heroicons:arrow-long-right-20-solid"
+                className="h-5 w-5"
+              />
             </ButtonLink>
           </div>
         </div>
@@ -315,10 +430,12 @@ import imageGallery from '@/data/image-gallery';
       class="container flex flex-col gap-6 lg:flex-row-reverse lg:items-center lg:gap-16"
     >
       <div class="flex-1">
-        <Image
+        <img
           src={openingHoursImage}
           alt="CocoBakes fresh baked goods"
-          width={576}
+          width="576"
+          loading="lazy"
+          decoding="async"
           class="aspect-video w-full rounded-md object-cover object-top shadow-of-bg-surface lg:aspect-4/3"
         />
       </div>
@@ -338,12 +455,15 @@ import imageGallery from '@/data/image-gallery';
             ))
           }
         </ul>
-        <ButtonLink 
-          href="#contact" 
+        <ButtonLink
+          href="#contact"
           className="mt-[0.25rem] lg:mt-[0.234375rem] lg:w-fit xl:mt-[0.28125rem]"
         >
           <span>Contact us</span>
-          <Icon name="heroicons:arrow-long-right-20-solid" className="h-5 w-5" />
+          <Icon
+            name="heroicons:arrow-long-right-20-solid"
+            className="h-5 w-5"
+          />
         </ButtonLink>
       </div>
     </div>
@@ -372,15 +492,26 @@ import imageGallery from '@/data/image-gallery';
     <Seperator className="before:-z-10 after:-z-10" />
     <div class="bg-surface">
       <div class="flex flex-col lg:container lg:flex-row lg:gap-16">
-        <ul class="container flex-1 space-y-3 py-8 lg:mx-0 lg:max-w-none lg:px-0 lg:pb-24">
+        <ul
+          class="container flex-1 space-y-3 py-8 lg:mx-0 lg:max-w-none lg:px-0 lg:pb-24"
+        >
           <li class="w-fit">
             <a
               href={contactInfo.phone.href}
               class="group flex items-center gap-2 hover:text lg:gap-3"
             >
-              <Icon name="heroicons:phone-20-solid" className="h-5 w-5 text-fill" client:load />
-              <Icon name="heroicons:phone-20-solid" className="h-5 w-5 text-fill" />
-              <span class="font-secondary text-body-md text-secondary group-hover:text group-hover:underline">
+              <Icon
+                name="heroicons:phone-20-solid"
+                className="h-5 w-5 text-fill"
+                client:load
+              />
+              <Icon
+                name="heroicons:phone-20-solid"
+                className="h-5 w-5 text-fill"
+              />
+              <span
+                class="font-secondary text-body-md text-secondary group-hover:text group-hover:underline"
+              >
                 {contactInfo.phone.text}
               </span>
             </a>
@@ -390,9 +521,18 @@ import imageGallery from '@/data/image-gallery';
               href={contactInfo.address.href}
               class="group flex items-center gap-2 hover:text lg:gap-3"
             >
-              <Icon name="heroicons:map-pin-20-solid" className="h-5 w-5 text-fill" client:load />
-              <Icon name="heroicons:map-pin-20-solid" className="h-5 w-5 text-fill" />
-              <span class="font-secondary text-body-md text-secondary group-hover:text group-hover:underline">
+              <Icon
+                name="heroicons:map-pin-20-solid"
+                className="h-5 w-5 text-fill"
+                client:load
+              />
+              <Icon
+                name="heroicons:map-pin-20-solid"
+                className="h-5 w-5 text-fill"
+              />
+              <span
+                class="font-secondary text-body-md text-secondary group-hover:text group-hover:underline"
+              >
                 {contactInfo.address.text}
               </span>
             </a>
@@ -404,9 +544,18 @@ import imageGallery from '@/data/image-gallery';
               rel="noopener noreferrer"
               class="group flex items-center gap-2 hover:text lg:gap-3"
             >
-              <Icon name="heroicons:chat-bubble-left-right-20-solid" className="h-5 w-5 text-fill" client:load />
-              <Icon name="heroicons:chat-bubble-left-right-20-solid" className="h-5 w-5 text-fill" />
-              <span class="font-secondary text-body-md text-secondary group-hover:text group-hover:underline">
+              <Icon
+                name="heroicons:chat-bubble-left-right-20-solid"
+                className="h-5 w-5 text-fill"
+                client:load
+              />
+              <Icon
+                name="heroicons:chat-bubble-left-right-20-solid"
+                className="h-5 w-5 text-fill"
+              />
+              <span
+                class="font-secondary text-body-md text-secondary group-hover:text group-hover:underline"
+              >
                 {contactInfo.whatsapp.text}
               </span>
             </a>

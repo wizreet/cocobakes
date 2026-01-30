@@ -1,26 +1,87 @@
 ---
-import { Header, Footer } from '@/components/react';
+/**
+ * MainLayout Component
+ * Base layout for all pages with SEO, security headers, and consistent structure
+ */
+
+import { Header, Footer, PageErrorBoundary } from '@/components/react';
+import { SEO, BUSINESS } from '@/constants';
+
+// ============================================================================
+// Types
+// ============================================================================
 
 type Props = {
+  /** Page title - defaults to site-wide SEO title */
   title?: string;
+  /** Page description for SEO - defaults to site-wide description */
   description?: string;
+  /** Open Graph image URL */
+  ogImage?: string;
+  /** Canonical URL for the page */
+  canonicalUrl?: string;
+  /** Additional structured data (JSON-LD) */
+  structuredData?: object;
 };
 
+// ============================================================================
+// Props with defaults
+// ============================================================================
+
 const {
-  title = 'CocoBakes - Handcrafted Brownies from Nepal',
-  description = 'Welcome to CocoBakes, your artisan brownie bakery in Lalitpur, Nepal. Discover our handcrafted brownies made with love and premium ingredients. Order your favorites today!',
+  title = SEO.DEFAULT_TITLE,
+  description = SEO.DEFAULT_DESCRIPTION,
+  ogImage = SEO.OG_IMAGE,
+  canonicalUrl,
+  structuredData,
 } = Astro.props;
+
+// Build full URLs
+const baseUrl = import.meta.env.SITE || '';
+const fullOgImage = ogImage.startsWith('http')
+  ? ogImage
+  : `${baseUrl}${ogImage}`;
+
+// Default structured data for local business (no email to prevent scraping)
+const defaultStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Bakery',
+  name: BUSINESS.NAME,
+  description: description,
+  telephone: BUSINESS.PHONE,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Lalitpur',
+    addressCountry: 'Nepal',
+  },
+};
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/jpeg" href={`${import.meta.env.BASE_URL}LogoCircular.jpeg`} />
-    <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}LogoCircular.jpeg`} />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
 
-    <!-- Fonts (reduce FOUT/layout shift on navigation) -->
+    <!-- Security Headers (as meta tags - actual headers should be set server-side) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- Basic Meta -->
+    <link
+      rel="icon"
+      type="image/jpeg"
+      href={`${import.meta.env.BASE_URL}LogoCircular.jpeg`}
+    />
+    <link
+      rel="apple-touch-icon"
+      href={`${import.meta.env.BASE_URL}LogoCircular.jpeg`}
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#684339" />
+
+    <!-- Fonts (preconnect for performance) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -28,25 +89,99 @@ const {
       href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&family=Dancing+Script:wght@400;700&display=swap"
     />
 
+    <!-- Global Styles -->
     <style is:global>
       html {
         scroll-behavior: smooth;
         scroll-padding-top: 8rem;
       }
+
+      /* Reduced motion preference */
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      /* Skip link for accessibility */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        padding: 8px 16px;
+        background: #684339;
+        color: white;
+        text-decoration: none;
+        z-index: 100;
+      }
+
+      .skip-link:focus {
+        top: 0;
+      }
     </style>
+
+    <!-- SEO Meta Tags -->
     <meta name="description" content={description} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/LogoVertical.jpeg" />
+    <meta property="og:image" content={fullOgImage} />
+    <meta property="og:site_name" content={BUSINESS.NAME} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={fullOgImage} />
+
+    <!-- Structured Data -->
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData || defaultStructuredData)}
+    />
+
+    <!-- Web App Manifest for PWA -->
+    <link rel="manifest" href={`${import.meta.env.BASE_URL}manifest.json`} />
+
     <title>{title}</title>
   </head>
   <body
     class="relative bg font-primary text after:pointer-events-none after:absolute after:left-0 after:top-0 after:z-50 after:h-full after:w-full after:bg-noise-loose after:opacity-10 after:contrast-0 lg:after:bg-noise-dense"
   >
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link"> Skip to main content</a>
+
     <Header client:idle />
-    <main class="pt-24 lg:pt-32">
-      <slot />
+
+    <main id="main-content" class="pt-24 lg:pt-32" tabindex="-1">
+      <PageErrorBoundary client:idle>
+        <slot />
+      </PageErrorBoundary>
     </main>
+
     <Footer client:idle />
+
+    <!-- Service Worker Registration -->
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker
+            .register('/cocobakes/sw.js')
+            .catch(function () {});
+        });
+      }
+    </script>
   </body>
 </html>

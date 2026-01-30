@@ -1,23 +1,15 @@
-// Brownie Builder Configuration & Pricing
+/**
+ * Brownie Builder Configuration & Pricing
+ * Type-safe configuration for the custom brownie builder feature
+ */
 
-export interface BuilderOption {
-  id: string;
-  name: string;
-  price: number;
-  description?: string;
-  image?: string;
-}
+import { formatPrice as formatPriceUtil } from '@/utils';
+import type { BuilderOption, BuilderCategory, QuantityOptions } from '@/types';
 
-export interface BuilderCategory {
-  id: string;
-  name: string;
-  description: string;
-  required: boolean;
-  maxSelections: number;
-  options: BuilderOption[];
-}
+// ============================================================================
+// Base Options
+// ============================================================================
 
-// Base options
 export const bases: BuilderCategory = {
   id: 'base',
   name: 'Choose Your Base',
@@ -25,15 +17,43 @@ export const bases: BuilderCategory = {
   required: true,
   maxSelections: 1,
   options: [
-    { id: 'classic', name: 'Classic Fudge Brownie', price: 150, description: 'Rich, dense chocolate brownie' },
-    { id: 'walnut', name: 'Walnut Brownie', price: 180, description: 'Classic brownie with crunchy walnuts' },
-    { id: 'blondie', name: 'Blondie', price: 140, description: 'Vanilla-based butterscotch brownie' },
-    { id: 'cheesecake', name: 'Cheesecake Brownie', price: 200, description: 'Swirled cream cheese layer' },
-    { id: 'redvelvet', name: 'Red Velvet Brownie', price: 190, description: 'Velvety red with cream cheese' },
+    {
+      id: 'classic',
+      name: 'Classic Fudge Brownie',
+      price: 150,
+      description: 'Rich, dense chocolate brownie',
+    },
+    {
+      id: 'walnut',
+      name: 'Walnut Brownie',
+      price: 180,
+      description: 'Classic brownie with crunchy walnuts',
+    },
+    {
+      id: 'blondie',
+      name: 'Blondie',
+      price: 140,
+      description: 'Vanilla-based butterscotch brownie',
+    },
+    {
+      id: 'cheesecake',
+      name: 'Cheesecake Brownie',
+      price: 200,
+      description: 'Swirled cream cheese layer',
+    },
+    {
+      id: 'redvelvet',
+      name: 'Red Velvet Brownie',
+      price: 190,
+      description: 'Velvety red with cream cheese',
+    },
   ],
-};
+} as const;
 
+// ============================================================================
 // Toppings
+// ============================================================================
+
 export const toppings: BuilderCategory = {
   id: 'toppings',
   name: 'Add Toppings',
@@ -50,9 +70,12 @@ export const toppings: BuilderCategory = {
     { id: 'coconut', name: 'Toasted Coconut', price: 25 },
     { id: 'sprinkles', name: 'Rainbow Sprinkles', price: 20 },
   ],
-};
+} as const;
 
+// ============================================================================
 // Extras
+// ============================================================================
+
 export const extras: BuilderCategory = {
   id: 'extras',
   name: 'Special Add-ons',
@@ -66,10 +89,13 @@ export const extras: BuilderCategory = {
     { id: 'berries', name: 'Fresh Berries', price: 70 },
     { id: 'giftbox', name: 'Gift Box Packaging', price: 100 },
   ],
-};
+} as const;
 
-// Quantity options
-export const quantityOptions = {
+// ============================================================================
+// Quantity Options
+// ============================================================================
+
+export const quantityOptions: QuantityOptions = {
   min: 1,
   max: 24,
   presets: [
@@ -78,15 +104,37 @@ export const quantityOptions = {
     { quantity: 12, label: 'Dozen', discount: 10 },
     { quantity: 24, label: 'Party Pack (24)', discount: 15 },
   ],
-};
+} as const;
 
-// All categories
-export const builderCategories: BuilderCategory[] = [bases, toppings, extras];
+// ============================================================================
+// All Categories
+// ============================================================================
 
-// Helper to format price in NPR
-export const formatPrice = (price: number): string => {
-  return `NPR ${price.toLocaleString('en-NP')}`;
-};
+export const builderCategories: readonly BuilderCategory[] = [
+  bases,
+  toppings,
+  extras,
+];
+
+// ============================================================================
+// Utility Functions
+// ============================================================================
+
+/**
+ * Format price in NPR currency
+ * @deprecated Use formatPrice from @/utils instead
+ */
+export const formatPrice = formatPriceUtil;
+
+// ============================================================================
+// Type Re-exports for convenience
+// ============================================================================
+
+export type { BuilderOption, BuilderCategory, QuantityOptions };
+
+// ============================================================================
+// Default Export
+// ============================================================================
 
 export default {
   bases,
@@ -95,4 +143,4 @@ export default {
   quantityOptions,
   builderCategories,
   formatPrice,
-};
+} as const;

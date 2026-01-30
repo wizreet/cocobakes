@@ -1,20 +1,32 @@
-const contactInfo = {
+/**
+ * Contact information configuration
+ * Centralized business contact details
+ */
+
+import { BUSINESS, SOCIAL_URLS } from '@/constants';
+import type { ContactInfo } from '@/types';
+
+/**
+ * Contact information for CocoBakes
+ * All values are readonly to prevent accidental mutation
+ */
+const contactInfo: ContactInfo = {
   phone: {
-    href: 'tel:+9779849805290',
-    text: '+977 9849805290',
+    href: `tel:+${BUSINESS.PHONE_RAW}`,
+    text: BUSINESS.PHONE,
   },
   email: {
-    href: 'mailto:cocobakesnp@gmail.com',
-    text: 'cocobakesnp@gmail.com',
+    href: `mailto:${BUSINESS.EMAIL}`,
+    text: BUSINESS.EMAIL,
   },
   address: {
-    href: 'https://maps.google.com/?q=Lalitpur,Nepal',
-    text: 'Lalitpur, Nepal',
+    href: SOCIAL_URLS.GOOGLE_MAPS,
+    text: BUSINESS.LOCATION,
   },
   whatsapp: {
-    href: 'https://wa.me/9779849805290',
+    href: SOCIAL_URLS.WHATSAPP,
     text: 'Chat on WhatsApp',
   },
-};
+} as const;
 
 export default contactInfo;

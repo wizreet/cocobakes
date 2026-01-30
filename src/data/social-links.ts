@@ -1,19 +1,31 @@
-const socialLinks = {
+/**
+ * Social media links configuration
+ * Centralized social platform URLs and icons
+ */
+
+import { SOCIAL_URLS, ICONS } from '@/constants';
+import type { SocialLinks } from '@/types';
+
+/**
+ * Social media links for CocoBakes
+ * Uses constants for URLs to ensure consistency
+ */
+const socialLinks: SocialLinks = {
   instagram: {
-    href: 'https://instagram.com/cocobakes.np',
+    href: SOCIAL_URLS.INSTAGRAM,
     text: 'Instagram',
-    icon: 'mdi:instagram',
+    icon: ICONS.INSTAGRAM,
   },
   facebook: {
-    href: 'https://facebook.com/cocobakes.np',
+    href: SOCIAL_URLS.FACEBOOK,
     text: 'Facebook',
-    icon: 'mdi:facebook',
+    icon: ICONS.FACEBOOK,
   },
   whatsapp: {
-    href: 'https://wa.me/9779849805290',
+    href: SOCIAL_URLS.WHATSAPP,
     text: 'WhatsApp',
-    icon: 'mdi:whatsapp',
+    icon: ICONS.WHATSAPP,
   },
-};
+} as const;
 
 export default socialLinks;

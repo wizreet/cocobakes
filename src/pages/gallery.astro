@@ -2,8 +2,9 @@
 import MainLayout from '@/layouts/MainLayout.astro';
 import { ImageGallery, Seperator } from '@/components/react';
 import imageGallery from '@/data/image-gallery';
-import { Image } from 'astro:assets';
-import bakeryImage from '@/assets/austin-park-xAS8pWGMMGA-unsplash.jpg';
+import bakeryImageSrc from '@/assets/austin-park-xAS8pWGMMGA-unsplash.jpg';
+
+const bakeryImage = typeof bakeryImageSrc === 'string' ? bakeryImageSrc : bakeryImageSrc.src;
 ---
 
 <MainLayout>
@@ -39,10 +40,12 @@ import bakeryImage from '@/assets/austin-park-xAS8pWGMMGA-unsplash.jpg';
       class="container flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-16"
     >
       <div class="flex-1">
-        <Image
+        <img
           src={bakeryImage}
           alt="CocoBakes bakery"
-          width={576}
+          width="576"
+          loading="lazy"
+          decoding="async"
           class="aspect-video w-full rounded-md object-cover shadow-of-bg-surface lg:aspect-4/3"
         />
       </div>
@@ -53,17 +56,17 @@ import bakeryImage from '@/assets/austin-park-xAS8pWGMMGA-unsplash.jpg';
           Welcome to CocoBakes
         </h2>
         <p class="font-secondary text-body-md text-secondary xl:text-body-xl">
-          At CocoBakes, we're passionate about crafting the perfect baked goods. 
-          Based in the heart of Lalitpur, Nepal, we bake every item with love, 
-          using premium ingredients to deliver rich, delicious brownies, cakes, 
-          and pastries that melt in your mouth. From classic fudge brownies to 
+          At CocoBakes, we're passionate about crafting the perfect baked goods.
+          Based in the heart of Lalitpur, Nepal, we bake every item with love,
+          using premium ingredients to deliver rich, delicious brownies, cakes,
+          and pastries that melt in your mouth. From classic fudge brownies to
           custom celebration cakes, we pour our heart into every creation.
         </p>
         <p class="font-secondary text-body-md text-secondary xl:text-body-xl">
-          Our commitment to quality means we source the finest ingredients and 
-          take pride in every batch we bake. Whether you're celebrating a special 
-          occasion or simply treating yourself, CocoBakes is here to make your 
-          moments sweeter. Join us on a journey of chocolate bliss and discover 
+          Our commitment to quality means we source the finest ingredients and
+          take pride in every batch we bake. Whether you're celebrating a special
+          occasion or simply treating yourself, CocoBakes is here to make your
+          moments sweeter. Join us on a journey of chocolate bliss and discover
           why our community loves what we do!
         </p>
       </div>

@@ -1,3 +1,8 @@
+/**
+ * React Component Exports
+ * Centralized exports for all React components
+ */
+
 // UI Components
 export { Button, ButtonLink, buttonStyles } from './Button';
 export { NavLink } from './NavLink';
@@ -24,3 +29,17 @@ export { CraftPage } from './CraftPage';
 // Form Components
 export { Input } from './Input';
 export { TextArea } from './TextArea';
+
+// Performance Components
+export { OptimizedImage, PreloadImage, useLightbox } from './OptimizedImage';
+
+// Banner Components
+export { OfferBanner } from './OfferBanner';
+
+// Error Handling Components
+export {
+  ErrorBoundary,
+  ErrorFallback,
+  ComponentErrorBoundary,
+  PageErrorBoundary,
+} from './ErrorBoundary';

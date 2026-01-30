@@ -1,0 +1,33 @@
+{
+  "recommendations": [
+    // Core
+    "astro-build.astro-vscode",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+
+    // TypeScript
+    "ms-vscode.vscode-typescript-next",
+
+    // Tailwind CSS
+    "bradlc.vscode-tailwindcss",
+
+    // React
+    "dsznajder.es7-react-js-snippets",
+
+    // Git
+    "eamodio.gitlens",
+
+    // Editor enhancements
+    "christian-kohler.path-intellisense",
+    "aaron-bond.better-comments",
+    "usernamehw.errorlens",
+
+    // Icons
+    "PKief.material-icon-theme",
+
+    // Utilities
+    "formulahendry.auto-rename-tag",
+    "steoates.autoimport"
+  ],
+  "unwantedRecommendations": []
+}
