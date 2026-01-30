@@ -107,11 +107,11 @@ export const Header = memo(function Header() {
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
             onClick={toggleMenu}
-            className="group relative z-50 text lg:hidden"
+            className="group relative z-50 flex h-10 w-10 items-center justify-center rounded-md text-brand hover:bg-surface lg:hidden"
           >
             <Icon
               icon={isMenuOpen ? ICONS.CLOSE : ICONS.MENU}
-              className="h-6 w-6"
+              className="h-7 w-7"
               aria-hidden="true"
             />
           </button>

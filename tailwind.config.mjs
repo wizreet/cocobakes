@@ -216,8 +216,8 @@ export default {
           '100%': { transform: 'translateX(-33.33%)' },
         },
         'banner-scroll': {
-          '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-33.33%)' },
+          '0%': { transform: 'translateX(-33.33%)' },
+          '100%': { transform: 'translateX(0%)' },
         },
         shimmer: {
           '0%': { backgroundPosition: '200% 0' },
@@ -228,7 +228,7 @@ export default {
       animation: {
         marquee: 'marquee linear infinite',
         'marquee-slow': 'marquee 60s linear infinite',
-        'banner-scroll': 'banner-scroll 60s linear infinite',
+        'banner-scroll': 'banner-scroll 45s linear infinite',
         shimmer: 'shimmer 4s ease-in-out infinite',
       },
     },

@@ -36,12 +36,12 @@ const OfferItem = memo(function OfferItem({ offer }: OfferItemProps) {
       className="group inline-flex items-center gap-3 whitespace-nowrap px-8 transition-all duration-300 hover:scale-105"
     >
       {offer.emoji && (
-        <span className="drop-shadow-sm text-xl" role="img" aria-hidden="true">
+        <span className="text-xl drop-shadow-sm" role="img" aria-hidden="true">
           {offer.emoji}
         </span>
       )}
-      <span className="font-medium tracking-wide">{offer.shortText}</span>
-      <span className="bg-white/25 shadow-sm group-hover:bg-white/40 group-hover:shadow-md rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider backdrop-blur-sm transition-all duration-300">
+      <span className="font-brand text-lg font-bold tracking-wide">{offer.shortText}</span>
+      <span className="rounded-full bg-amber-900/80 px-3 py-1 text-xs font-bold uppercase tracking-wider text-amber-100 shadow-sm backdrop-blur-sm transition-all duration-300 group-hover:bg-amber-900 group-hover:shadow-md">
         {offer.ctaText}
       </span>
     </a>
@@ -51,9 +51,9 @@ const OfferItem = memo(function OfferItem({ offer }: OfferItemProps) {
 const Separator = memo(function Separator() {
   return (
     <span className="mx-6 inline-flex items-center" aria-hidden="true">
-      <span className="bg-white/40 shadow-sm h-1 w-1 rounded-full" />
-      <span className="bg-white/60 shadow-sm mx-2 h-1.5 w-1.5 rounded-full" />
-      <span className="bg-white/40 shadow-sm h-1 w-1 rounded-full" />
+      <span className="h-1 w-1 rounded-full bg-amber-900/40 shadow-sm" />
+      <span className="mx-2 h-1.5 w-1.5 rounded-full bg-amber-900/60 shadow-sm" />
+      <span className="h-1 w-1 rounded-full bg-amber-900/40 shadow-sm" />
     </span>
   );
 });
@@ -91,8 +91,8 @@ export const OfferBanner = memo(function OfferBanner({
     <div
       className={cx(
         'relative w-full overflow-hidden',
-        'from-pink-500 via-rose-400 to-pink-500 bg-gradient-to-r',
-        'text-white shadow-lg',
+        'bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600',
+        'text-amber-950 shadow-lg',
         className,
       )}
       role="region"
@@ -108,8 +108,8 @@ export const OfferBanner = memo(function OfferBanner({
       />
 
       {/* Glow edges */}
-      <div className="from-pink-500 via-pink-500/80 to-transparent pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r" />
-      <div className="from-pink-500 via-pink-500/80 to-transparent pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-amber-600 via-amber-600/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-amber-600 via-amber-600/80 to-transparent" />
 
       {/* Scrolling content */}
       <div
@@ -135,7 +135,7 @@ export const OfferBanner = memo(function OfferBanner({
       {/* Screen reader link */}
       <a
         href={`${BASE_PATH}offers`}
-        className="focus:bg-white focus:text-pink-600 focus:shadow-lg sr-only focus:not-sr-only focus:absolute focus:left-1/2 focus:top-1/2 focus:z-20 focus:-translate-x-1/2 focus:-translate-y-1/2 focus:rounded focus:px-4 focus:py-2"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-1/2 focus:top-1/2 focus:z-20 focus:-translate-x-1/2 focus:-translate-y-1/2 focus:rounded focus:bg-amber-100 focus:px-4 focus:py-2 focus:text-amber-900 focus:shadow-lg"
       >
         View all offers
       </a>
