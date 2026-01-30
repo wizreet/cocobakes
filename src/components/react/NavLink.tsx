@@ -1,5 +1,6 @@
 import { cx } from 'class-variance-authority';
 import { type AnchorHTMLAttributes, type ReactNode, useState, useEffect } from 'react';
+import { BASE_PATH } from '@/constants';
 
 interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   children: ReactNode;
@@ -12,29 +13,38 @@ export function NavLink({ className, href, children, ...props }: NavLinkProps) {
     const checkActive = () => {
       if (!href) return;
       
-      if (href === '#' || href === '/') {
-        // Home link - active when at top or no hash
-        setIsActive(window.location.hash === '' || window.location.hash === '#');
+      const pathname = window.location.pathname;
+      
+      // Home link - check for base path or base path with trailing slash
+      if (href === BASE_PATH || href === `${BASE_PATH}/` || href === '/') {
+        const isHome = pathname === BASE_PATH || 
+                       pathname === `${BASE_PATH}/` || 
+                       pathname === '/' ||
+                       pathname === `${BASE_PATH}index.html`;
+        setIsActive(isHome && !window.location.hash);
       } else if (href.startsWith('#')) {
         // Hash link - active when hash matches
         setIsActive(window.location.hash === href);
       } else if (href.includes('#')) {
         // Path + hash link - active when both match
         const [path, hash] = href.split('#');
-        setIsActive(window.location.pathname === path && window.location.hash === `#${hash}`);
+        const pathMatches = pathname === path || pathname === `${path}/` || pathname === `${path}index.html`;
+        setIsActive(pathMatches && window.location.hash === `#${hash}`);
       } else {
-        // Path link - active when pathname matches
-        setIsActive(window.location.pathname === href);
+        // Path link - active when pathname matches (with or without trailing slash)
+        const normalizedHref = href.endsWith('/') ? href.slice(0, -1) : href;
+        const normalizedPath = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+        setIsActive(normalizedPath === normalizedHref || pathname === `${normalizedHref}/index.html`);
       }
     };
 
     checkActive();
     window.addEventListener('hashchange', checkActive);
-    window.addEventListener('scroll', checkActive);
+    window.addEventListener('popstate', checkActive);
     
     return () => {
       window.removeEventListener('hashchange', checkActive);
-      window.removeEventListener('scroll', checkActive);
+      window.removeEventListener('popstate', checkActive);
     };
   }, [href]);
 

@@ -88,12 +88,7 @@ export const Header = memo(function Header() {
             <NavLink href={`${BASE_PATH}menu`}>Menu</NavLink>
             <NavLink href={`${BASE_PATH}craft`}>Craft</NavLink>
             <NavLink href={`${BASE_PATH}gallery`}>Gallery</NavLink>
-            <NavLink
-              href={`${BASE_PATH}offers`}
-              className="font-bold text-fill"
-            >
-              Offers
-            </NavLink>
+            <NavLink href={`${BASE_PATH}offers`}>Offers</NavLink>
             <ButtonLink href={`${BASE_PATH}#contact`} size="medium">
               <span>Contact</span>
               <Icon
